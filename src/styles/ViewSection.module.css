@@ -1,0 +1,52 @@
+.sectionWrapper {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 32px;
+  padding: 28px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.viewSection {
+  margin-top: 16px;
+}
+.ReactMarkdown{
+  white-space: 'pre-wrap';
+  line-height: 1.6;
+}
+.viewSectionTitle {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.viewSectionContent {
+  font-size: 16px;
+  line-height: 24px;
+}
+.code{
+  background-color: rgb(29, 31, 33);
+}
+.code div:first-child{
+  margin-top: 0px !important;
+}
+.copyBar{
+  width: 100%;
+  background-color: rgb(58, 65, 71);
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+.copyButton{
+  background-color: rgb(58, 65, 71);
+  height: 30px;
+  border:none;
+  padding:8px;
+}
+.copyButton.copy{
+  cursor: pointer;
+}
+.copyButton.copy:hover{
+  transition: 0.5s;
+  background-color: rgb(29, 31, 33);
+}

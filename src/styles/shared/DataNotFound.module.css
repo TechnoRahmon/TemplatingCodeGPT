@@ -1,0 +1,10 @@
+.DataNotFoundContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:2rem;
+}
+
+.DataNotFoundTitle{
+    font-size: larger;
+}

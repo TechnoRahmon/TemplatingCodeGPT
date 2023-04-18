@@ -1,0 +1,65 @@
+
+.inputWrapper {
+  margin-bottom: 16px;
+}
+
+.textarea {
+  width: 100%;
+  height: 220px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 15px auto;
+}
+.textarea.input{
+  height: 110px !important;
+}
+.input-one-line{
+  height: 45px !important;
+  resize: none;
+  
+}
+.clearButton,
+.button{
+
+font-family: Roboto, sans-serif;
+font-weight: 0;
+font-size: 14px;
+color: #fff;
+background-color: #e76f51;
+padding: 8px 30px;
+border: solid #ffffff 1px;
+box-shadow: none;
+border-radius: 4px;
+transition : 548ms;
+transform: translateY(0);
+display: flex;
+flex-direction: row;
+align-items: center;
+cursor: pointer;
+}
+
+.button:hover{
+
+transition : 548ms;
+padding: 8px 30px;
+background-color: #ffffff;
+color: #e76f51;
+border: solid 1px #e76f51;
+}
+.buttonGroup{
+  display: flex;
+  gap:15px;
+}
+.clearButton{
+  background-color: #766DF4;
+}
+.clearButton:hover{
+  transition : 548ms;
+padding: 8px 30px;
+  background-color: #ffffff;
+  color: #766DF4;
+  border-color: #766DF4;
+}

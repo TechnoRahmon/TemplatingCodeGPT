@@ -1,0 +1,7 @@
+.container {
+    flex: 0 0 auto;
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    z-index: 500;
+  }

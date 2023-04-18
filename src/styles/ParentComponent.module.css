@@ -1,0 +1,47 @@
+.parentComponent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sectionWrapper {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 32px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .button{
+
+    font-family: Roboto, sans-serif;
+    font-weight: 0;
+    font-size: 14px;
+    color: #fff;
+    background-color: #e76f51;
+    padding: 8px 30px;
+    border: solid #ffffff 1px;
+    box-shadow: none;
+    border-radius: 4px;
+    transition : 548ms;
+    transform: translateY(0);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    }
+    
+    .button:hover{
+    
+    transition : 548ms;
+    padding: 8px 30px;
+    background-color: #ffffff;
+    color: #e76f51;
+    border: solid 1px #e76f51;
+    }
+    .apikeyButton{
+      background-color: transparent;
+      margin: 15px;
+    }

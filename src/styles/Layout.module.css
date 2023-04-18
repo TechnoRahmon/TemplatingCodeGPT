@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    height: 100vh; /* set container height to full viewport height */
+  }
+  
+  .sidebar {
+    flex: 0 0 auto; /* don't allow sidebar to grow or shrink */
+    width: fit-content; /* adjust sidebar width as needed */
+    background-color: #f0f0f0;
+  }
+  
+  .content {
+    padding-top: 60px;
+    flex: 1 1 auto; /* allow content to grow or shrink */
+    overflow: auto; /* enable scrolling for content that exceeds viewport height */
+  }
