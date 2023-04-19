@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Loader, { stopLoader } from '@/Components/shared/Loader';
 import { IhandleSnackbar } from '@/Components/shared/CommonSnackbar';
 import ClearListButton from '@/Components/prompt/ClearListButton';
+import Switch from '@/Components/shared/Switch';
 type props = {
   handleSnackbar: IhandleSnackbar
 }
@@ -19,8 +20,8 @@ export default function index({
   const [openai_key, setOpenai_key] = useState<string>("");
   const [isLoading, setisLoading] = useState<boolean>(true);
   const [sendingLoader, setSendingLoader] = useState<boolean>(false);
-  const [withoutTemplatMode, setTemplateMode]= useState<boolean>(false);
-  
+  const [withoutTemplatMode, setTemplateMode] = useState<boolean>(false);
+
   const [store, setStore] = useState<Store>();
   const list: string[] = [`# Welcome to Our Site!
 
@@ -55,8 +56,8 @@ export default function index({
     const newStore = new Store();
     setStore(newStore)
     const openaiKey = newStore.getOpenaiKey();
-    let array :any[]= JSON.parse(`[${newStore.getResultList()}]`);
-    setResultList(array.length ?array[0]:[])
+    let array: any[] = JSON.parse(`[${newStore.getResultList()}]`);
+    setResultList(array.length ? array[0] : [])
     if (openaiKey)
       setOpenai_key(openaiKey);
     stopLoader(() => {
@@ -67,9 +68,9 @@ export default function index({
     setSendingLoader(true);
     try {
       debugger
-      const fullPrompt = store?.getFullPrompt(inputValue)??inputValue;
+      const fullPrompt = store?.getFullPrompt(inputValue) ?? inputValue;
       const resp = await sentPrompt(fullPrompt, openai_key);
-      const resultView =inputValue+'\n\n ------------------- Result --------------------------- \n\n' + resp;
+      const resultView = inputValue + '\n\n ------------------- Result --------------------------- \n\n' + resp;
       setResultList(state => [resultView, ...state]);
       store?.setResultList(JSON.stringify([resultView, ...resultList]))
       setSendingLoader(false);
@@ -82,7 +83,7 @@ export default function index({
   const handleInputChange = (value: string) => {
     setInputValue(value);
   };
-  const clearChat = ()=>{
+  const clearChat = () => {
     store?.setResultList(`[]`);
     setResultList([]);
   }
@@ -96,12 +97,15 @@ export default function index({
         <>
           <div className={styles.sectionWrapper}>
             <h2>Prompt Input</h2>
-            <PromptInput 
-                className={`input`} 
-                onChange={handleInputChange} 
-                value={inputValue} 
-                onSubmit={onSubmit} 
-                customButton={<ClearListButton label='clear chat'  onSubmit={clearChat}/>} />
+            <PromptInput
+              className={`input`}
+              onChange={handleInputChange}
+              value={inputValue}
+              onSubmit={onSubmit}
+              customButton={<>
+                <ClearListButton label='clear chat' onSubmit={clearChat} />
+              </>} />
+
           </div>
           {sendingLoader ?
             <Loader hWrapper={25} />

@@ -37,6 +37,7 @@
   var(--background-start-rgb);
   --icon-width:16px ;
 }
+@import url('Switch.css');
 
 @media (prefers-color-scheme: dark) {
   :root {
