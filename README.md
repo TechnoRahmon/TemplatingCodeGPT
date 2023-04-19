@@ -1,8 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Project with Template Prompt - README
+
+This is a  [Next.js](https://nextjs.org/) project that has been initialized with [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+To get started with the project, you need to run the development server by executing the following command:
 
 ```bash
 npm run dev
@@ -12,27 +14,24 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open  with your browser to see the result.
+After running the development server, you can open [http://localhost:3000](http://localhost:3000) in your browser to view the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## How to Use the Project
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The project has a page named `/prompt` that contains the settings of the template. In this page, you can set up the following:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **Template Prompt**: In this field, you can specify the text that you want to include in all of your prompt requests. The field should include the following placeholders:
+    - `{{input}}`: This will be replaced by the `prompt input` from the home `/` page.
+    - `{{pattren}}`: This will be replaced by the `Pattern Prompt` field.
+    - `{{context}}`: This will be replaced by the `Context Prompt` field.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+By setting up the text that will not change, you can focus solely on the `prompt input` in the home `/` page and save time.
 
-## Learn More
+**Context Prompt**: In this field, you can put your context text.
 
-To learn more about Next.js, take a look at the following resources:
+**Pattern Prompt**: This is the pattern that ChatGPT should learn from to generate the response.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**The website uses local storage to save the chat list and the template settings.**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+We hope that you find this project useful and enjoy using it!
