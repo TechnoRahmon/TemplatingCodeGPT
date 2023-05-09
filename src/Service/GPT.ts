@@ -10,11 +10,9 @@ export async function sentPrompt(message:string,API_KEY:string){
         const moderationResponse = await openAi.createModeration({
           input: message,
         });
-        console.log('====================================');
-        console.log('moderationResponse.statusText ' , moderationResponse.statusText);
-        console.log('====================================');
         const completionResponse = await openAi.createChatCompletion({
           model: "gpt-3.5-turbo",
+          temperature:0,
           messages: [{ role: "user", content: message }],
         })
         return completionResponse?.data?.choices[0].message?.content
