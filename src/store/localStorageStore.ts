@@ -73,9 +73,9 @@ export class Store {
 
     getFullPrompt(input:string){
       let template = this.getPromptTemplate();
-      const pattren = this.getPromptPattern();
+      const pattern = this.getPromptPattern();
       const context = this.getPromptContext();
-      template = template.replace(/{{pattren}}/i, pattren+'\n\n');
+      template = template.replace(/{{pattern}}/i, pattern+'\n\n');
       template = template.replace(/{{context}}/i, context+'\n\n');
       template = template.replace(/{{input}}/i, input+'\n\n');
       return template;
