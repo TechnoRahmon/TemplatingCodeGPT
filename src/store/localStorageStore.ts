@@ -1,4 +1,8 @@
 import { template } from "./defaultData";
+export type IResult = {
+  input: string;
+  output: string;
+}
 
 function getlocalStorage(key:string):Storage|any{
     return typeof window != undefined ? window?.localStorage.getItem(key):"";
@@ -25,7 +29,6 @@ export class Store {
     private openaiKey: string = "";
     
     setPromptTemplate(value: string): void {
-        debugger
       this.promptTemplate = value;
 
       setlocalStorage(this.PROMPT_TEMPLATE_KEY, value);

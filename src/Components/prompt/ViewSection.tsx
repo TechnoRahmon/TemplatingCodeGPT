@@ -4,8 +4,9 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { IResult } from '@/store/localStorageStore';
 type ViewSectionprops = {
-  inputValue: string[];
+  inputValue: IResult[];
 }
 export function ViewSection({
   inputValue
@@ -16,15 +17,17 @@ export function ViewSection({
     setIsCopied(true)
     setTimeout(() => { setIsCopied(false) }, 1000);
   }
-
   return <>{
-    inputValue.length ? inputValue.map((result: string) => (
-      <div className={styles.sectionWrapper}>
+    inputValue.length ? inputValue.map((result: IResult, index) => (
+      <div className={styles.sectionWrapper} key={index}>
         <div className={styles.viewSection}>
-          <h2 className={styles.viewSectionTitle}>View Section</h2>
+          <h2 className={styles.viewSectionTitle}>Input</h2>
+          <p>{result.input}</p>
+          <br/>
+          <h2 className={styles.viewSectionTitle}>Output</h2>
 
           <ReactMarkdown
-            children={result}
+            children={result.output}
             className={styles.ReactMarkdown}
             components={{
               code({ node, inline, className, children, ...props }: any) {
