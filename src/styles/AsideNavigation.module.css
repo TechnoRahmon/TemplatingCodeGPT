@@ -5,9 +5,11 @@
   height: 100%;
   padding: 1rem;
   transition: width 0.2s ease-in-out;
+  width: 120px;
 }
 .container.minimized {
   width: 60px;
+  padding: 1rem 5px;
 }
 .list {
   display: flex;
@@ -19,6 +21,7 @@
 
 .item {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .link {
@@ -43,6 +46,8 @@
 .container.minimized .icon{
   margin-right: 0px !important;
 }
+
+.addTemplateButton,
 .minimizeButton {
   border: 1px #ccc solid;
   color: #fff;
@@ -58,12 +63,69 @@
   display: flex;
 
 }
+
+.addTemplateButton{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #e76f51;
+}
+.addTemplateButton span,
+.minimizeButton span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:3px;
+}
+.addTemplateButton svg,
 .minimizeButton svg{
   width: 13px;
+  height: 13px;
 }
+.addTemplateButton:hover,
 .minimizeButton:hover{
   background-color: var(--dark-hover);
 }
+.container.minimized .addTemplateButton,
 .container.minimized .minimizeButton{
   margin-left: 0px;
 }
+
+.templateListSection {
+  display: flex;
+  align-items: center;
+  gap:3px;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.templateListSection ul {
+  width: 100%;
+}
+.templateListSection .item {
+  border: 1px #bcbcbc solid;
+  background-color: #2f3234;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 0px;
+}
+
+/* TODO :: tooltip 
+
+.minimizedItem .item:hover::after {
+  content: attr(data-content);
+  position: absolute;
+  background-color: #fff;
+  color: #333;
+  padding: 5px;
+  border-radius: 4px;
+  top: 120%;
+  left: 120%;
+  white-space: nowrap;
+  z-index: 1;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.3s;
+}
+
+
+*/

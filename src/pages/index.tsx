@@ -55,7 +55,7 @@ export default function index({
   const onSubmit = async () => {
     setSendingLoader(true);
     try {
-      const fullPrompt = store?.getFullPrompt(inputValue) ?? inputValue;
+      const fullPrompt = `store?.getFullPrompt(inputValue) ?? inputValue`;
       const resp = await sentPrompt(fullPrompt, openai_key);
       const resultView: IResult = { input: inputValue, output: resp ?? "" }
       setResultList(state => [resultView, ...state]);

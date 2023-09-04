@@ -6,7 +6,7 @@
   
   .sectionWrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: 80%;
     margin-bottom: 32px;
     padding: 16px;
     border: 1px solid #ccc;
@@ -34,9 +34,7 @@
     }
     
     .button:hover{
-    
     transition : 548ms;
-    padding: 8px 30px;
     background-color: #ffffff;
     color: #e76f51;
     border: solid 1px #e76f51;

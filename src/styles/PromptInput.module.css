@@ -42,9 +42,7 @@ cursor: pointer;
 }
 
 .button:hover{
-
 transition : 548ms;
-padding: 8px 30px;
 background-color: #ffffff;
 color: #e76f51;
 border: solid 1px #e76f51;
@@ -59,7 +57,6 @@ border: solid 1px #e76f51;
 }
 .clearButton:hover{
   transition : 548ms;
-padding: 8px 30px;
   background-color: #ffffff;
   color: #766DF4;
   border-color: #766DF4;

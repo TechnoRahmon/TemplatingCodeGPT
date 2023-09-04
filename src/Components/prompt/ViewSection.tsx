@@ -21,10 +21,10 @@ export function ViewSection({
     inputValue.length ? inputValue.map((result: IResult, index) => (
       <div className={styles.sectionWrapper} key={index}>
         <div className={styles.viewSection}>
-          <h2 className={styles.viewSectionTitle}>Input</h2>
+          <h2 className={styles.viewSectionTitle}>Input:</h2>
           <p>{result.input}</p>
           <br/>
-          <h2 className={styles.viewSectionTitle}>Output</h2>
+          <h2 className={styles.viewSectionTitle}>Output:</h2>
 
           <ReactMarkdown
             children={result.output}

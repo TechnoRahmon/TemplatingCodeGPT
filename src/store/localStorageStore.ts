@@ -1,7 +1,22 @@
+import { generateRandomId } from "@/utils/randomId";
 import { template } from "./defaultData";
 export type IResult = {
   input: string;
   output: string;
+}
+export type ITemplateItem = {
+  title:string;
+  id:string;
+  template :string;
+  pattern: string;
+  context:string;
+}
+export const emptyTempaltItem: ITemplateItem = {
+  title:'New Prompt',
+  id:generateRandomId(),
+  context:'',
+  pattern:'',
+  template:template
 }
 
 function getlocalStorage(key:string):Storage|any{
@@ -14,8 +29,8 @@ export class Store {
     private PROMPT_TEMPLATE_KEY = "PROMPT_TEMPLATE";
     private PROMPT_PATTERN_KEY = "PROMPT_PATTERN";
     private PROMPT_CONTEXT_KEY = "PROMPT_CONTEXT";
+    private PROMPT_TEMPLATE_LIST_KEY = "PROMPT_TEMPLATE_LIST_KEY_";
     private RESULT_LIST_KEY = "RESULT_LIST_KEY";
-    private INPUT_HISTORY = "INPUT_HISTORY";
     private OPENAI_KEY_KEY = "OPENAI_KEY";
   
     constructor() {
@@ -28,14 +43,14 @@ export class Store {
     private ResultList:string ="";
     private openaiKey: string = "";
     
-    setPromptTemplate(value: string): void {
+    setPromptTemplate(id:string, value: string): void {
       this.promptTemplate = value;
 
-      setlocalStorage(this.PROMPT_TEMPLATE_KEY, value);
+      setlocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id, value);
     }
   
-    getPromptTemplate(): string {
-      return this.promptTemplate || getlocalStorage(this.PROMPT_TEMPLATE_KEY) || template;
+    getPromptTemplate(id:string,): string {
+      return this.promptTemplate || getlocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id) || template;
     }
   
     setPromptPattern(value: string): void {
@@ -74,14 +89,14 @@ export class Store {
         return this.ResultList || getlocalStorage(this.RESULT_LIST_KEY) || "";
       }
 
-    getFullPrompt(input:string){
-      let template = this.getPromptTemplate();
-      const pattern = this.getPromptPattern();
-      const context = this.getPromptContext();
-      template = template.replace(/{{pattern}}/i, pattern+'\n\n');
-      template = template.replace(/{{context}}/i, context+'\n\n');
-      template = template.replace(/{{input}}/i, input+'\n\n');
-      return template;
+    getFullPrompt(templateId:string, input:string){
+      let templateChunk = this.getPromptTemplate(templateId);
+      const { context, pattern, template }:ITemplateItem = JSON.parse(templateChunk);
+      let templateText = template;
+      templateText = template.replace(/{{pattern}}/i, pattern+'\n\n');
+      templateText = templateText.replace(/{{context}}/i, context+'\n\n');
+      templateText = templateText.replace(/{{input}}/i, input+'\n\n');
+      return templateText;
     }
   }
   
