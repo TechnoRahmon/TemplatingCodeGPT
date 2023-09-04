@@ -98,8 +98,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-.templateListSection ul {
+.templateListSection .list {
   width: 100%;
+  gap: 10px !important;
 }
 .templateListSection .item {
   border: 1px #bcbcbc solid;

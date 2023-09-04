@@ -11,13 +11,13 @@ export type ITemplateItem = {
   pattern: string;
   context:string;
 }
-export const emptyTempaltItem: ITemplateItem = {
-  title:'New Prompt',
-  id:generateRandomId(),
-  context:'',
-  pattern:'',
-  template:template
-}
+export const _getEmptyTempaltItem = () => ({
+    title:'New Prompt',
+    id:generateRandomId(),
+    context:'',
+    pattern:'',
+    template:template
+  })
 
 function getlocalStorage(key:string):Storage|any{
     return typeof window != undefined ? window?.localStorage.getItem(key):"";
@@ -26,9 +26,6 @@ function setlocalStorage(key:string, value:string):Storage|any{
     return typeof window != undefined ? window?.localStorage.setItem(key,value):"";
 }
 export class Store {
-    private PROMPT_TEMPLATE_KEY = "PROMPT_TEMPLATE";
-    private PROMPT_PATTERN_KEY = "PROMPT_PATTERN";
-    private PROMPT_CONTEXT_KEY = "PROMPT_CONTEXT";
     private PROMPT_TEMPLATE_LIST_KEY = "PROMPT_TEMPLATE_LIST_KEY_";
     private RESULT_LIST_KEY = "RESULT_LIST_KEY";
     private OPENAI_KEY_KEY = "OPENAI_KEY";
@@ -38,8 +35,6 @@ export class Store {
     }
   
     private promptTemplate: string = "";
-    private promptPattern: string = "";
-    private promptContext: string = "";
     private ResultList:string ="";
     private openaiKey: string = "";
     
@@ -50,27 +45,17 @@ export class Store {
     }
   
     getPromptTemplate(id:string,): string {
-      return this.promptTemplate || getlocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id) || template;
+      return this.promptTemplate || getlocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id) || JSON.stringify({..._getEmptyTempaltItem(),id,template});
     }
-  
-    setPromptPattern(value: string): void {
-      this.promptPattern = value;
-      setlocalStorage(this.PROMPT_PATTERN_KEY, value);
+    
+    getPromptTemplateList():Array<ITemplateItem>{
+        const templateItem =  Object.entries(localStorage)
+            .filter(([key])=>key.includes(this.PROMPT_TEMPLATE_LIST_KEY) && key != this.PROMPT_TEMPLATE_LIST_KEY )
+            .map(item=>JSON.parse(item[1])) as Array<ITemplateItem>;
+
+        return templateItem;
     }
-  
-    getPromptPattern(): string {
-      return this.promptPattern || getlocalStorage(this.PROMPT_PATTERN_KEY) || "";
-    }
-  
-    setPromptContext(value: string): void {
-      this.promptContext = value;
-      setlocalStorage(this.PROMPT_CONTEXT_KEY, value);
-    }
-  
-    getPromptContext(): string {
-      return this.promptContext || getlocalStorage(this.PROMPT_CONTEXT_KEY) || "";
-    }
-  
+
     setOpenaiKey(value: string): void {
       this.openaiKey = value;
       setlocalStorage(this.OPENAI_KEY_KEY, value);

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Loader, { stopLoader } from '@/Components/shared/Loader';
 import { IhandleSnackbar } from '@/Components/shared/CommonSnackbar';
 import ClearListButton from '@/Components/prompt/ClearListButton';
-import Switch from '@/Components/shared/Switch';
+
 type props = {
   handleSnackbar: IhandleSnackbar
 }
@@ -24,7 +24,6 @@ export default function index({
   const [openai_key, setOpenai_key] = useState<string>("");
   const [isLoading, setisLoading] = useState<boolean>(true);
   const [sendingLoader, setSendingLoader] = useState<boolean>(false);
-  const [withoutTemplatMode, setTemplateMode] = useState<boolean>(false);
 
   const [store, setStore] = useState<Store>();
 
@@ -79,7 +78,7 @@ export default function index({
   return (
     <div className={styles.parentComponent}>
       {openai_key == "" ?
-        <Link href={"/prompt"} className={styles.button}>Add Openai Key</Link>
+        <Link href={"/config"} className={styles.button}>Add Openai Key</Link>
         :
         <>
           <div className={styles.sectionWrapper}>
