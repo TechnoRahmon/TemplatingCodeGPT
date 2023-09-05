@@ -79,9 +79,7 @@ export class Store {
         return this.ResultList || getlocalStorage(this.RESULT_LIST_KEY) || "";
       }
 
-    getFullPrompt(templateId:string, input:string){
-      let templateChunk = this.getPromptTemplate(templateId);
-      const { context, pattern, template }:ITemplateItem = JSON.parse(templateChunk);
+    getFullPrompt({ context, pattern, template }:ITemplateItem, input:string){
       let templateText = template;
       templateText = template.replace(/{{pattern}}/i, pattern+'\n\n');
       templateText = templateText.replace(/{{context}}/i, context+'\n\n');

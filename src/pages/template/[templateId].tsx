@@ -8,17 +8,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 type PromptProps = {
-  handleSnackbar: IhandleSnackbar
+  handleSnackbar: IhandleSnackbar,
+  fetchCallback: () => void,
+  templateList: Array<ITemplateItem>
 }
 export default function Prompt({
-  handleSnackbar
+  handleSnackbar,
+  fetchCallback,
+  templateList
 }: PromptProps) {
   const router = useRouter();
-  const [templateId, settemplateId] = useState("");
-  const [template, setTemplate] = useState<ITemplateItem>({ ..._getEmptyTempaltItem(), id: templateId });
+  const [template, setTemplate] = useState<ITemplateItem>({ ..._getEmptyTempaltItem(), id: "" });
   const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [templateList, setTemplateList] = useState<Array<ITemplateItem>>([]);
-  const [resultList, setResultList] = useState<Array<string>>([]);
   const [store, setStore] = useState<Store>();
 
 
@@ -32,22 +33,13 @@ export default function Prompt({
       const templateItem: ITemplateItem = JSON.parse(templateChunk ?? '{}');
       // set the template item
       setTemplate(templateItem);
-
-      // get template list
-      const templateList = newStore?.getPromptTemplateList();
-      // set the template list
-      setTemplateList(templateList.length ? templateList : [_getEmptyTempaltItem()]);
     }
   }, [])
 
   const onSubmitHandler = (key: string) => {
     store?.setPromptTemplate(template.id, JSON.stringify(template))
     handleSnackbar(`${key} has been submitted successfully`, 'success');
-    if (key == 'title') {
-      setTimeout(() => {
-        router.reload();
-      }, 1000)
-    }
+    fetchCallback()
   }
   const handleInputChange = (value: string, key: any) => {
     setTemplate(state => ({ ...state, [key]: value }))
@@ -66,6 +58,7 @@ export default function Prompt({
     handleSnackbar(`Template has been deleted successfully`, 'success')
     // get the redirect url
     const redirectUrl = `/template/${newTemplateList[0].id}`;
+    fetchCallback()
     // redirect to the first template
     router.push(redirectUrl);
   }

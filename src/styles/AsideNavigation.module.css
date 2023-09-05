@@ -39,6 +39,11 @@
 .container.minimized .link {
   justify-content: center;
 }
+
+.link span{
+  width: 100%;
+  word-wrap: break-word;
+}
 .icon {
 
   width: var(--icon-width);
@@ -108,6 +113,7 @@
   padding: 8px;
   border-radius: 4px;
   margin-bottom: 0px;
+  text-align: center;
 }
 
 /* TODO :: tooltip 

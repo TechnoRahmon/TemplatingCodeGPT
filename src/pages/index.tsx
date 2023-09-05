@@ -3,28 +3,31 @@ import { ViewSection } from '@/Components/prompt/ViewSection';
 import React, { useEffect, useState } from 'react'
 import styles from "./../styles/ParentComponent.module.css";
 import { sentPrompt } from '@/Service/GPT';
-import { IResult, Store } from '@/store/localStorageStore';
+import { IResult, ITemplateItem, Store } from '@/store/localStorageStore';
 import Link from 'next/link';
 import Loader, { stopLoader } from '@/Components/shared/Loader';
 import { IhandleSnackbar } from '@/Components/shared/CommonSnackbar';
 import ClearListButton from '@/Components/prompt/ClearListButton';
+import TemplateSelect from '@/Components/prompt/TemplateSelect';
 
 type props = {
-  handleSnackbar: IhandleSnackbar
+  handleSnackbar: IhandleSnackbar,
+  templateList: Array<ITemplateItem>
 }
 const emptyResult: IResult = {
   input: '',
   output: ''
 }
 export default function index({
-  handleSnackbar
+  handleSnackbar,
+  templateList
 }: props) {
   const [inputValue, setInputValue] = useState<string>('');
   const [resultList, setResultList] = useState<Array<IResult>>([emptyResult]);
   const [openai_key, setOpenai_key] = useState<string>("");
   const [isLoading, setisLoading] = useState<boolean>(true);
   const [sendingLoader, setSendingLoader] = useState<boolean>(false);
-
+  const [ selectedTemplate, setSelectedTemplate ] =useState<ITemplateItem>();
   const [store, setStore] = useState<Store>();
 
   useEffect(() => {
@@ -52,9 +55,12 @@ export default function index({
     })
   }
   const onSubmit = async () => {
-    setSendingLoader(true);
     try {
-      const fullPrompt = `store?.getFullPrompt(inputValue) ?? inputValue`;
+      if (!selectedTemplate || !selectedTemplate?.id || !inputValue)
+      return handleSnackbar("Need to select a template and  enter an input!", "error");
+      
+      setSendingLoader(true);
+      const fullPrompt = store?.getFullPrompt(selectedTemplate,inputValue) ?? inputValue;
       const resp = await sentPrompt(fullPrompt, openai_key);
       const resultView: IResult = { input: inputValue, output: resp ?? "" }
       setResultList(state => [resultView, ...state]);
@@ -73,6 +79,10 @@ export default function index({
     store?.setResultList(`[]`);
     setResultList([]);
   }
+
+  const onTemplateChange = (_selectedTemplate: ITemplateItem | null)=>{
+    setSelectedTemplate(_selectedTemplate ?? undefined)
+  }
   if (isLoading)
     return <Loader hWrapper={80} />
   return (
@@ -90,6 +100,7 @@ export default function index({
               onSubmit={onSubmit}
               customButton={<>
                 <ClearListButton label='clear chat' onSubmit={clearChat} />
+                <TemplateSelect  inputValue={inputValue} store={store} onChange={onTemplateChange} styles={styles} templateList={templateList} />
               </>} />
 
           </div>

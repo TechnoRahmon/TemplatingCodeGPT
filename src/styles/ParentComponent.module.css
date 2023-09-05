@@ -64,3 +64,38 @@
 .icon:hover {
   color: lightgray;
 }
+
+/* TemplateSelect.module.css */
+
+.selectContainer {
+  height: 30px;
+  width: fit-content;
+  margin-left: auto;
+  display: flex;
+  gap:15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.popupTriggerDisabled,
+.popupTrigger{
+  font-size: 13px;
+}
+.popupTrigger{
+  cursor: pointer;
+}
+.popupTriggerDisabled{
+  opacity: 0.5;
+}
+.selectLabel {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.select {
+  height: 30px;
+  width: 200px;
+  max-width: 100%;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

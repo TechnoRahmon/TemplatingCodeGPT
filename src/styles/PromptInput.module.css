@@ -51,6 +51,7 @@ border: solid 1px #e76f51;
   display: flex;
   gap:15px;
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 .clearButton{
   background-color: #766DF4;

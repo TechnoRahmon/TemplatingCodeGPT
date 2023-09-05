@@ -1,19 +1,24 @@
 import { faHome, faBars, faChevronLeft, faAdd, faGear } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import styles from '@/styles/AsideNavigation.module.css';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ITemplateItem, Store, _getEmptyTempaltItem } from '@/store/localStorageStore';
 import { useRouter } from 'next/router';
 
-export default function AsideNavigation() {
+export default function AsideNavigation({
+  templateList,
+  setTemplateList
+}:{
+  setTemplateList: Dispatch<SetStateAction<ITemplateItem[]>>,
+  templateList: Array<ITemplateItem>
+}) {
   const router = useRouter();
   const [minimized, setMinimized] = useState(false);
   const navItems = [
     { label: 'Chat', icon: faHome, link: '/' },
     { label: 'Config', icon: faGear, link: '/config' }
   ];
-  const [templateList, setTemplateList] = useState<Array<ITemplateItem>>([]);
 
   const handleMinimize = () => {
     setMinimized(!minimized);
