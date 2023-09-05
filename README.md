@@ -2,6 +2,9 @@
 
 This is a [Next.js](https://nextjs.org/) project that has been initialized with [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+### Live! 
+check the live version **[Demo](https://templating-code-gpt.vercel.app)**
+ **The website uses local storage to save the chat list and the template settings.**
 ## Getting Started
 
 To get started with the project, you need to run the development server by executing the following command:
