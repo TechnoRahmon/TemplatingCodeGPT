@@ -1,6 +1,6 @@
 # Next.js Project with Template Prompt - README
 
-This is a  [Next.js](https://nextjs.org/) project that has been initialized with [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project that has been initialized with [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ yarn dev
 pnpm dev
 ```
 
-Open  with your browser to see the result.
+Open with your browser to see the result.
 After running the development server, you can open [http://localhost:3000](http://localhost:3000) in your browser to view the result.
 
 ## How to Use the Project
@@ -22,9 +22,9 @@ After running the development server, you can open [http://localhost:3000](http:
 The project has a page named `/prompt` that contains the settings of the template. In this page, you can set up the following:
 
 - **Template Prompt**: In this field, you can specify the text that you want to include in all of your prompt requests. The field should include the following placeholders:
-    - `{{input}}`: This will be replaced by the `prompt input` from the home `/` page.
-    - `{{pattren}}`: This will be replaced by the `Pattern Prompt` field.
-    - `{{context}}`: This will be replaced by the `Context Prompt` field.
+  - `{{input}}`: This will be replaced by the `prompt input` from the home `/` page.
+  - `{{pattern}}`: This will be replaced by the `Pattern Prompt` field.
+  - `{{context}}`: This will be replaced by the `Context Prompt` field.
 
 By setting up the text that will not change, you can focus solely on the `prompt input` in the home `/` page and save time.
 

@@ -3,74 +3,66 @@ import { ViewSection } from '@/Components/prompt/ViewSection';
 import React, { useEffect, useState } from 'react'
 import styles from "./../styles/ParentComponent.module.css";
 import { sentPrompt } from '@/Service/GPT';
-import { Store } from '@/store/localStorageStore';
+import { IResult, ITemplateItem, Store } from '@/store/localStorageStore';
 import Link from 'next/link';
 import Loader, { stopLoader } from '@/Components/shared/Loader';
 import { IhandleSnackbar } from '@/Components/shared/CommonSnackbar';
 import ClearListButton from '@/Components/prompt/ClearListButton';
-import Switch from '@/Components/shared/Switch';
+import TemplateSelect from '@/Components/prompt/TemplateSelect';
+
 type props = {
-  handleSnackbar: IhandleSnackbar
+  handleSnackbar: IhandleSnackbar,
+  templateList: Array<ITemplateItem>
+}
+const emptyResult: IResult = {
+  input: '',
+  output: ''
 }
 export default function index({
-  handleSnackbar
+  handleSnackbar,
+  templateList
 }: props) {
   const [inputValue, setInputValue] = useState<string>('');
-  const [resultList, setResultList] = useState<Array<string>>([]);
+  const [resultList, setResultList] = useState<Array<IResult>>([emptyResult]);
   const [openai_key, setOpenai_key] = useState<string>("");
   const [isLoading, setisLoading] = useState<boolean>(true);
   const [sendingLoader, setSendingLoader] = useState<boolean>(false);
-  const [withoutTemplatMode, setTemplateMode] = useState<boolean>(false);
-
+  const [ selectedTemplate, setSelectedTemplate ] =useState<ITemplateItem>();
   const [store, setStore] = useState<Store>();
-  const list: string[] = [`# Welcome to Our Site!
 
-  We're excited to have you here. Our site has a lot of great features, including:
-  
-  
-  - **Easy-to-use interface**: Our site is designed to be intuitive and user-friendly, so you can find what you're looking for quickly and easily.
-  
-  - **Powerful search**: With our advanced search capabilities, you can easily find exactly what you're looking for, no matter how obscure.
-  
-  - **Community-driven content**: Our site is powered by a community of passionate users who contribute content, answer questions, and share their expertise.
-  
-  So why not join the community today? Sign up now and start exploring all the great features our site has to offer!
-  `,
-    " this is a test \n\
-  ```jsx \n\
-  import React from 'react'; \n\
-  \n\
-  const HelloWorld = () => {\n\
-    return (\n\
-      <div>\n\
-        <h1>Hello World!</h1>\n\
-      </div>\n\
-    );\n\
-  };\n\
-  \n\
-  expo\n\
-  ```"
-  ]
   useEffect(() => {
-    debugger
+
     const newStore = new Store();
     setStore(newStore)
     const openaiKey = newStore.getOpenaiKey();
     let array: any[] = JSON.parse(`[${newStore.getResultList()}]`);
-    setResultList(array.length ? array[0] : [])
+    const storedList = checkStoredList(array.length ? array[0] : []);
+    setResultList(storedList)
     if (openaiKey)
       setOpenai_key(openaiKey);
     stopLoader(() => {
       setisLoading(false);
     })
   }, [])
+
+  const checkStoredList = (_list:any[])=>{
+    return _list.map<IResult>((item:any)=> {
+      if (typeof item == 'string'){
+        const [inputString, output ] = item.split("------------------- Result ---------------------------");
+        return { input:inputString, output}
+      }
+      return item as IResult
+    })
+  }
   const onSubmit = async () => {
-    setSendingLoader(true);
     try {
-      debugger
-      const fullPrompt = store?.getFullPrompt(inputValue) ?? inputValue;
+      if (!selectedTemplate || !selectedTemplate?.id || !inputValue)
+      return handleSnackbar("Need to select a template and  enter an input!", "error");
+      
+      setSendingLoader(true);
+      const fullPrompt = store?.getFullPrompt(selectedTemplate,inputValue) ?? inputValue;
       const resp = await sentPrompt(fullPrompt, openai_key);
-      const resultView = inputValue + '\n\n ------------------- Result --------------------------- \n\n' + resp;
+      const resultView: IResult = { input: inputValue, output: resp ?? "" }
       setResultList(state => [resultView, ...state]);
       store?.setResultList(JSON.stringify([resultView, ...resultList]))
       setSendingLoader(false);
@@ -87,12 +79,16 @@ export default function index({
     store?.setResultList(`[]`);
     setResultList([]);
   }
+
+  const onTemplateChange = (_selectedTemplate: ITemplateItem | null)=>{
+    setSelectedTemplate(_selectedTemplate ?? undefined)
+  }
   if (isLoading)
     return <Loader hWrapper={80} />
   return (
     <div className={styles.parentComponent}>
       {openai_key == "" ?
-        <Link href={"/prompt"} className={styles.button}>Add Openai Key</Link>
+        <Link href={"/config"} className={styles.button}>Add Openai Key</Link>
         :
         <>
           <div className={styles.sectionWrapper}>
@@ -104,6 +100,7 @@ export default function index({
               onSubmit={onSubmit}
               customButton={<>
                 <ClearListButton label='clear chat' onSubmit={clearChat} />
+                <TemplateSelect  inputValue={inputValue} store={store} onChange={onTemplateChange} styles={styles} templateList={templateList} />
               </>} />
 
           </div>
