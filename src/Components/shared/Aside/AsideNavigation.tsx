@@ -4,8 +4,10 @@ import styles from '@/styles/AsideNavigation.module.css';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ITemplateItem, Store, _getEmptyTempaltItem } from '@/store/localStorageStore';
+import { useRouter } from 'next/router';
 
 export default function AsideNavigation() {
+  const router = useRouter();
   const [minimized, setMinimized] = useState(false);
   const navItems = [
     { label: 'Chat', icon: faHome, link: '/' },
@@ -17,7 +19,9 @@ export default function AsideNavigation() {
     setMinimized(!minimized);
   };
   const handleClick = () => {
-    setTemplateList(state => [_getEmptyTempaltItem(), ...state]);
+    const newTemplate = _getEmptyTempaltItem();
+    setTemplateList(state => [newTemplate, ...state]);
+    router.push(`/template/${newTemplate.id}`);
   }
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export default function AsideNavigation() {
     // get template list
     const templateList = newStore?.getPromptTemplateList();
     // set the template list
-    setTemplateList(templateList.length? templateList : [_getEmptyTempaltItem()]);
+    setTemplateList(templateList.length ? templateList : [_getEmptyTempaltItem()]);
   }, [])
 
   return (

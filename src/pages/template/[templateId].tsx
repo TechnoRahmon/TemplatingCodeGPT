@@ -4,6 +4,9 @@ import { PromptInput } from '@/Components/prompt/PromptInput';
 import { ITemplateItem, Store, _getEmptyTempaltItem } from '@/store/localStorageStore';
 import { IhandleSnackbar } from '@/Components/shared/CommonSnackbar';
 import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
+
 type PromptProps = {
   handleSnackbar: IhandleSnackbar
 }
@@ -11,10 +14,10 @@ export default function Prompt({
   handleSnackbar
 }: PromptProps) {
   const router = useRouter();
-  console.log(router.query['templateId'])
   const [templateId, settemplateId] = useState("");
   const [template, setTemplate] = useState<ITemplateItem>({ ..._getEmptyTempaltItem(), id: templateId });
-
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [templateList, setTemplateList] = useState<Array<ITemplateItem>>([]);
   const [resultList, setResultList] = useState<Array<string>>([]);
   const [store, setStore] = useState<Store>();
 
@@ -29,26 +32,65 @@ export default function Prompt({
       const templateItem: ITemplateItem = JSON.parse(templateChunk ?? '{}');
       // set the template item
       setTemplate(templateItem);
+
+      // get template list
+      const templateList = newStore?.getPromptTemplateList();
+      // set the template list
+      setTemplateList(templateList.length ? templateList : [_getEmptyTempaltItem()]);
     }
   }, [])
 
   const onSubmitHandler = (key: string) => {
     store?.setPromptTemplate(template.id, JSON.stringify(template))
-    handleSnackbar(`${key} has been submitted successfully`, 'success')
+    handleSnackbar(`${key} has been submitted successfully`, 'success');
+    if (key == 'title') {
+      setTimeout(() => {
+        router.reload();
+      }, 1000)
+    }
   }
   const handleInputChange = (value: string, key: any) => {
     setTemplate(state => ({ ...state, [key]: value }))
   };
-
+  const onDeleteHandler = () => {
+    if (!isDeleteMode) {
+      return setIsDeleteMode(true);
+    }
+    if (templateList.length == 1) {
+      return handleSnackbar(`Template can't be deleted, need at least one template!`, 'error')
+    }
+    // set new template list without the current template
+    const newTemplateList = templateList.filter(temp => temp.id !== template.id);
+    // set the mewTemplateList
+    store?.deletePromptTemplate(template.id)
+    handleSnackbar(`Template has been deleted successfully`, 'success')
+    // get the redirect url
+    const redirectUrl = `/template/${newTemplateList[0].id}`;
+    // redirect to the first template
+    router.push(redirectUrl);
+  }
   return (
     <div className={styles.parentComponent}>
+      <div className={styles.actionBar}>
+        {isDeleteMode ?
+          <>
+            <span>Are you sure ?</span>
+            <span className={styles.icon} onClick={() => { setIsDeleteMode(false) }}>
+              <FontAwesomeIcon icon={faXmark} />
+            </span>
+          </>
+          : ""}
+        <span className={styles.icon} onClick={onDeleteHandler}>
+          <FontAwesomeIcon icon={isDeleteMode ? faCheck : faTrash} />
+        </span>
+      </div>
       <div className={styles.sectionWrapper}>
         <h2>Template title</h2>
         <PromptInput
           className={`input-one-line`}
           onChange={(value) => { handleInputChange(value, "title") }}
           value={template.title}
-          onSubmit={() => { onSubmitHandler("title") }} />
+          onSubmit={() => { onSubmitHandler("title"); }} />
       </div>
       <div className={styles.sectionWrapper}>
         <h2>Template</h2>

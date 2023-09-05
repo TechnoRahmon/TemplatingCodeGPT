@@ -25,6 +25,9 @@ function getlocalStorage(key:string):Storage|any{
 function setlocalStorage(key:string, value:string):Storage|any{
     return typeof window != undefined ? window?.localStorage.setItem(key,value):"";
 }
+function deletelocalStorage(key:string):Storage|any{
+  return typeof window != undefined ? window?.localStorage.removeItem(key):"";
+}
 export class Store {
     private PROMPT_TEMPLATE_LIST_KEY = "PROMPT_TEMPLATE_LIST_KEY_";
     private RESULT_LIST_KEY = "RESULT_LIST_KEY";
@@ -43,14 +46,16 @@ export class Store {
 
       setlocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id, value);
     }
-  
+    deletePromptTemplate(id:string): void {
+      deletelocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id);
+    }
     getPromptTemplate(id:string,): string {
       return this.promptTemplate || getlocalStorage(this.PROMPT_TEMPLATE_LIST_KEY + id) || JSON.stringify({..._getEmptyTempaltItem(),id,template});
     }
     
     getPromptTemplateList():Array<ITemplateItem>{
         const templateItem =  Object.entries(localStorage)
-            .filter(([key])=>key.includes(this.PROMPT_TEMPLATE_LIST_KEY) && key != this.PROMPT_TEMPLATE_LIST_KEY )
+            .filter(([key, value])=>key.includes(this.PROMPT_TEMPLATE_LIST_KEY) && key != this.PROMPT_TEMPLATE_LIST_KEY && JSON.parse(value)?.id )
             .map(item=>JSON.parse(item[1])) as Array<ITemplateItem>;
 
         return templateItem;
